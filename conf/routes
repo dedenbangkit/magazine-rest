@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# API Endpoints
+GET     /find/MagzApis/:magazineId/:key                               controllers.MagzApis.find(magazineId: Int, key:String)
+GET     /findAll/MagzApis/:magazineId/:key                            controllers.MagzApis.findAll(magazineId: Int, key:String)
+GET     /findstrict/MagzApis/:magazineId/:key/:userId                 controllers.MagzApis.findstrict(magazineId: Int, key:String, userId:Int )
+GET     /findstrictAll/MagzApis/:magazineId/:key/:userId              controllers.MagzApis.findstrictAll(magazineId: Int, key:String, userId:Int)
+
+# Home page
+GET     /                                                           controllers.Application.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
