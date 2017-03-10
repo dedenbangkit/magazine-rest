@@ -13,7 +13,7 @@ object ValidateDAO {
         """
           | SELECT COUNT(*) as numMatches
           | FROM `member`
-          | WHERE `id`={userId} AND `apikey`={key};
+          | WHERE `id`={userId} AND `apiKey`={key};
         """.stripMargin).on(
         "userId" -> validate.userId,
         "key" -> validate.key
@@ -27,9 +27,9 @@ object ValidateDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `userId`, `apikey`
+          | SELECT `userId`, `apiKey`
           | FROM `member`
-          | WHERE `id`={userId} AND apikey={key};
+          | WHERE `id`={userId} AND apiKey={key};
         """.stripMargin).on(
         "userId" -> userId,
         "key" -> key

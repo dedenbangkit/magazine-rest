@@ -1,33 +1,45 @@
 package models.dao
 
+import org.joda.time.DateTime
+import anorm._
 import models.Page
-import play.api.Play
+import play.api.db.DB
 import play.api.Play.current
-import play.api.libs.ws._
-
-import scala.concurrent._
 
 object PageDAO {
-  val pagesServiceUrl = Play.current.configuration.getString("service.backend.url").get + "/pages"
 
-  /**
-   * Fetches a list of pages associated with the given page ID
-   * @param magazineId The ID of the page to find pages of
-   * @return A list of pages associated with the specified page
-   */
-  def index(magazineId: Int)(implicit ec: ExecutionContext): Future[List[Page]] = {
-    val holder: WSRequestHolder = WS.url(pagesServiceUrl)
-      .withQueryString("magazineId" -> magazineId.toString)
 
-    // Execute the web service request and get back a future of a response
-    val fResponse = holder.get()
+  def show(issueId:Int, magazineId: Int): List[Page] = {
+    DB.withConnection { implicit c =>
+      val result = SQL(
+        """
+          | SELECT `pageUrl`,`pageNum`,`pageContent`,`magazineId`,`issueId`,`imgUrl`,`downloadUrl`
+          | FROM `magazine_issue`
+          | WHERE `magazineId`={magazineId} AND `issueId`={issueId};
+        """.stripMargin).on(
+        "magazineId" -> magazineId,
+        "issueId" -> issueId
+      ).apply()
+      result.map { row =>
+        Page(row[String]("pageUrl"),row[Int]("pageNum"),row[String]("pageContent"),row[Int]("magazineId"),row[Int]("issueId"),row[String]("imgUrl"),row[String]("downloadUrl"))
+      }.force.toList
+    }
+  }
 
-    fResponse.map { response =>
-      // The response will be JSON so parse out the list of pages' IDs
-      val pageMagazineIds: List[Int] = (response.json \ "result" \\ "pageMagazineId").map(_.as[Int]).toList
-
-      // Map the list of IDs to a list of pages
-      pageMagazineIds.map(Page.apply)
+  def index(issueId:Int, magazineId: Int): List[Page] = {
+    DB.withConnection { implicit c =>
+      val results = SQL(
+        """
+          | SELECT `pageUrl`,`pageNum`,`pageContent`,`magazineId`,`issueId`,`imgUrl`,`downloadUrl`
+          | FROM `magazine_issue`
+          | WHERE `magazineId`={magazineId} AND `issueId`={issueId};
+        """.stripMargin).on(
+        "magazineId" -> magazineId,
+        "issueId" -> issueId
+      ).apply()
+      results.map { row =>
+        Page(row[String]("pageUrl"),row[Int]("pageNum"),row[String]("pageContent"),row[Int]("magazineId"),row[Int]("issueId"),row[String]("imgUrl"),row[String]("downloadUrl"))
+      }.force.toList
     }
   }
 }

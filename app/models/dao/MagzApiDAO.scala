@@ -1,5 +1,6 @@
 package models.dao
 
+import org.joda.time.DateTime
 import anorm._
 import models.MagzApi
 import play.api.db.DB
@@ -34,7 +35,6 @@ object MagzApiDAO {
         """.stripMargin).on(
           "magazineId" -> magazineId
         ).apply()
-
       results.map { row =>
         MagzApi(row[Int]("magazineId"), row[Int]("issueNumber"),row[String]("title"),row[String]("author"),row[String]("summary"),row[String]("category"),row[String]("authorLink"),row[String]("releaseDate"),row[String]("pageUrl"),row[String]("imgUrl"))
       }.force.toList

@@ -2,8 +2,9 @@ package controllers
 
 
 import authentikat.jwt._
-import models.{MagzApi, Validate}
+import models.{MagzApi, Page, Validate}
 import models.MagzApi._
+import models.Page._
 import play.api.cache.{Cache, Cached}
 import play.api.libs.json._
 import play.api.mvc._
@@ -38,7 +39,7 @@ object MagzApis extends Controller {
           case Some(validate) =>
             val claimsSet = JwtClaimsSet(Map(key -> magazineId))
             val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, magazineId).mkString).drop(30)
-            val allMagzs = MagzApi.find(magazineId)
+            val allMagzs = MagzApi.findIssue(magazineId)
             val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
             Ok(Json.obj("results" -> allMagzs)).withHeaders(AUTHORIZATION -> endtoken,
               ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
@@ -55,7 +56,7 @@ object MagzApis extends Controller {
         case Some(validate) =>
           val claimsSet = JwtClaimsSet(Map(key -> magazineId))
           val token: String = JsonWebToken(header, claimsSet, List(userId,localIpAddress, magazineId).mkString).drop(30)
-          val allMagzs = MagzApi.findAllByPage(magazineId)
+          val allMagzs = MagzApi.findAllByIssue(magazineId)
           val endtoken: String = JsonWebToken(header, claimsSet, List(userId, localIpAddress).mkString).drop(30)
           Ok(Json.obj("results" -> allMagzs)).withHeaders(AUTHORIZATION -> endtoken,
             ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
@@ -70,7 +71,7 @@ object MagzApis extends Controller {
 	Action {
             val claimsSet = JwtClaimsSet(Map(key -> magazineId))
             val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, magazineId).mkString).drop(30)
-            val allMagzs = MagzApi.find(magazineId)
+            val allMagzs = MagzApi.findIssue(magazineId)
             val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
             Ok(Json.obj("results" -> allMagzs)).withHeaders(
               ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
@@ -82,7 +83,7 @@ object MagzApis extends Controller {
     Action {
           val claimsSet = JwtClaimsSet(Map(key -> magazineId))
           val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, magazineId).mkString).drop(30)
-          val allMagzs = MagzApi.findAllByPage(magazineId)
+          val allMagzs = MagzApi.findAllByIssue(magazineId)
           val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
           Ok(Json.obj("results" -> allMagzs)).withHeaders(
             ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
@@ -91,4 +92,16 @@ object MagzApis extends Controller {
             ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
     }
   }
+
+  def findIssue(issueId: Int, magazineId: Int) = {
+    Action {
+          val allPages = Page.findAllPage(issueId, magazineId)
+          Ok(Json.obj("results" -> allPages)).withHeaders(
+            ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
+            ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, OPTIONS",
+            ACCESS_CONTROL_ALLOW_HEADERS ->  "Origin, Accept, Authorization, X-Auth-Token",
+            ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
+    }
+  }
+
 }
