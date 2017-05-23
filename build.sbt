@@ -1,4 +1,4 @@
-name := """gameapi"""
+name := """publixxapi"""
 
 version := "1.0"
 
