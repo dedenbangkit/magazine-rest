@@ -9,7 +9,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import play.api.Play.current
 
-case class MagzApi(magazineId: Int, issueName: String, masterId: Int, issueCover: String, zipFile: String, releaseDate: DateTime)
+case class MagzApi(magazineId: Int, issueName: String, masterId: Int, issueCover: String, zipFile: String, releaseDate: DateTime, pageCount:Int)
 
 object MagzApi {
 
@@ -37,7 +37,8 @@ object MagzApi {
     (JsPath \ "masterId").read[Int] and
     (JsPath \ "issueCover").read[String] and
     (JsPath \ "zipFile").read[String] and
-    (JsPath \ "releaseDate").read[DateTime](jodaDateReads)
+    (JsPath \ "releaseDate").read[DateTime](jodaDateReads) and
+    (JsPath \ "pageCount").read[Int]
     )(MagzApi.apply _)
 
   implicit val magzApiWrites: Writes[MagzApi] = (
@@ -46,7 +47,8 @@ object MagzApi {
     (JsPath \ "masterId").write[Int] and
     (JsPath \ "issueCover").write[String] and
     (JsPath \ "zipFile").write[String](writeUrl) and
-    (JsPath \ "releaseDate").write[DateTime](jodaDateWrites)
+    (JsPath \ "releaseDate").write[DateTime](jodaDateWrites) and
+    (JsPath \ "pageCount").write[Int]
     )(unlift(MagzApi.unapply))
 
   def findAllByIssue(magazineId: Int): List[MagzApi] =

@@ -93,9 +93,9 @@ object MagzApis extends Controller {
     }
   }
 
-  def findIssue(issueId: Int, magazineId: Int) = {
+  def findPages(issueId: Int) = {
     Action {
-          val allPages = Page.findAllPage(issueId, magazineId)
+          val allPages = Page.findAllPage(issueId)
           Ok(Json.obj("results" -> allPages)).withHeaders(
             ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
             ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, OPTIONS",

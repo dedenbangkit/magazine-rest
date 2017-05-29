@@ -9,36 +9,34 @@ import play.api.Play.current
 object PageDAO {
 
 
-  def show(issueId:Int, magazineId: Int): List[Page] = {
+  def show(issueId:Int): List[Page] = {
     DB.withConnection { implicit c =>
       val result = SQL(
         """
-          | SELECT `pageUrl`,`pageNum`,`pageContent`,`magazineId`,`issueId`,`imgUrl`,`downloadUrl`
-          | FROM `magazine_issue`
-          | WHERE `magazineId`={magazineId} AND `issueId`={issueId};
+          | SELECT `issue_id`,`id`,`page_name`,`test_content`
+          | FROM `page`
+          | WHERE `issue_id`={issueId};
         """.stripMargin).on(
-        "magazineId" -> magazineId,
         "issueId" -> issueId
       ).apply()
       result.map { row =>
-        Page(row[String]("pageUrl"),row[Int]("pageNum"),row[String]("pageContent"),row[Int]("magazineId"),row[Int]("issueId"),row[String]("imgUrl"),row[String]("downloadUrl"))
+        Page(row[Int]("issue_id"),row[Int]("id"),row[String]("page_name"),row[Option[String]]("test_content"))
       }.force.toList
     }
   }
 
-  def index(issueId:Int, magazineId: Int): List[Page] = {
+  def index(issueId:Int): List[Page] = {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `pageUrl`,`pageNum`,`pageContent`,`magazineId`,`issueId`,`imgUrl`,`downloadUrl`
-          | FROM `magazine_issue`
-          | WHERE `magazineId`={magazineId} AND `issueId`={issueId};
+          | SELECT `issue_id`,`id`,`page_name`,`test_content`
+          | FROM `page`
+          | WHERE `issue_id`={issueId};
         """.stripMargin).on(
-        "magazineId" -> magazineId,
         "issueId" -> issueId
       ).apply()
       results.map { row =>
-        Page(row[String]("pageUrl"),row[Int]("pageNum"),row[String]("pageContent"),row[Int]("magazineId"),row[Int]("issueId"),row[String]("imgUrl"),row[String]("downloadUrl"))
+        Page(row[Int]("issue_id"),row[Int]("id"),row[String]("page_name"),row[Option[String]]("test_content"))
       }.force.toList
     }
   }
