@@ -11,9 +11,11 @@ case class Page(issueId: Int, pageNum: Int, pageName: String, pageContent: Optio
 
 object Page {
 
-  val oValue = """<o class=\"btn btn-inverse btn-embossed sortable-function"""
-  val iValue = """<i class=\"fa fa-arrows-h\"></i>"""
-  val rowValue = """div class=\"row article__content\" id=\"demos\""""
+  val oValue = """<o"""
+  val article = """<article></article>"""
+  val articleO = """<article class=\"article\">"""
+  val articleC = """</article>"""
+  val rowValue = """class=\"row article__content\" id=\"demos\""""
   val pMce = """class=\"article__by-line\" data-selector=\"p\" """
   val editAble = """data-editable=\"\" """
   val divMce = """class=\"container mce-content-body\" data-selector=\".container\""""
@@ -30,8 +32,10 @@ object Page {
 
   val replaceHTML: Writes[String] = new Writes[String] {
     def writes(d: String): JsValue = JsString(
-     d.replaceAll(oValue, """<o class=\"ng-hide""")
-       .replaceAll(iValue,"")
+     d.replaceAll(oValue, """<o style=\"display:none\" """)
+       .replaceAll(article, "")
+       .replaceAll(articleO, "")
+       .replaceAll(articleC, "")
        .replaceAll(rowValue,"")
        .replaceAll(editAble,"")
        .replaceAll(mceRem,"")
