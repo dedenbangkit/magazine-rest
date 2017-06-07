@@ -25,6 +25,8 @@ object Page {
   val dataP = """data-selector=\"p\" """
   val imgSrc = "img img-responsive"
   val divColumn12 = "column col-xs-12"
+  val divColumn10 = "column col-xs-10"
+  val divColumn9 = "column col-xs-9"
   val divColumn8 = "column col-xs-8"
   val divColumn6 = "column col-xs-6"
   val divColumn4 = "column col-xs-4"
@@ -46,7 +48,9 @@ object Page {
        .replaceAll(dataP, "")
        .replaceAll(imgSrc, "full-image")
        .replaceAll(divColumn12, "col")
-       .replaceAll(divColumn8, "col col-75")
+       .replaceAll(divColumn10, "col col-80")
+       .replaceAll(divColumn9, "col col-75")
+       .replaceAll(divColumn8, "col col-66")
        .replaceAll(divColumn6, "col col-50")
        .replaceAll(divColumn4, "col col-33")
        .replaceAll(divColumn3, "col col-25")
