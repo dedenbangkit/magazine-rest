@@ -12,6 +12,7 @@ case class Page(issueId: Int, pageNum: Int, pageName: String, pageContent: Optio
 object Page {
 
   val oValue = """<o"""
+  val pageUi = """<div id=/"page/" class=/"page/">"""
   val article = """<article></article>"""
   val articleO = """<article class=\"article\">"""
   val articleC = """</article>"""
@@ -37,6 +38,7 @@ object Page {
   val replaceHTML: Writes[String] = new Writes[String] {
     def writes(d: String): JsValue = JsString(
      d.replaceAll(oValue, """<o style=\"display:none;\" """)
+       .replaceAll(pageUi, """<div class=\"padding\"""")
        .replaceAll(article, "")
        .replaceAll(articleO, "")
        .replaceAll(articleC, "")
