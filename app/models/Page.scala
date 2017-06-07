@@ -15,6 +15,7 @@ object Page {
   val article = """<article></article>"""
   val articleO = """<article class=\"article\">"""
   val articleC = """</article>"""
+  val divItem = """<div class=\"item"""
   val rowValue = """class=\"row article__content\" id=\"demos\""""
   val pMce = """class=\"article__by-line\" data-selector=\"p\" """
   val editAble = """data-editable=\"\" """
@@ -39,6 +40,7 @@ object Page {
        .replaceAll(articleO, "")
        .replaceAll(articleC, "")
        .replaceAll(rowValue,"")
+       .replaceAll(divItem,"""<div class=\"""")
        .replaceAll(editAble,"")
        .replaceAll(mceRem,"")
        .replaceAll(pMce, "")
