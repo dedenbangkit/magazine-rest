@@ -17,7 +17,8 @@ object MagzApiDAO {
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="published"
-          | AND `project_id`={project_id};
+          | AND `project_id`={project_id}
+          | ORDER BY `updated_at` DESC;
         """.stripMargin).on(
         "project_id" -> magazineId
       ).apply()
@@ -37,6 +38,7 @@ object MagzApiDAO {
           | AND `deleted_at`= null
           | AND `status`="published"
           | AND `project_id`={project_id};
+          | ORDER BY `updated_at` DESC;
         """.stripMargin).on(
           "project_id" -> magazineId
         ).apply()
