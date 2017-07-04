@@ -39,6 +39,9 @@ object Page {
   val divColumn6 = "column col-xs-6"
   val divColumn4 = "column col-xs-4"
   val divColumn3 = "column col-xs-3"
+  val carouselIn = """<div class="carousel-inner"><ion-slides slider="data.slider" class="do_not_swipe">"""
+  val carouselOut = """</ion-slides></div>"""
+  val carouselCss = """class="carousels""""
 
   val replaceHTML: Writes[String] = new Writes[String] {
     def writes(d: String): JsValue = JsString(
@@ -66,6 +69,9 @@ object Page {
        .replaceAll(divColumn6, "col")
        .replaceAll(divColumn4, "col")
        .replaceAll(divColumn3, "col")
+       .replaceAll(carouselIn, """<ion-slides slider="data.slider" class="do_not_swipe">""")
+       .replaceAll(carouselOut, """</ion-slides>""")
+       .replaceAll(carouselCss, """width="100%"""")
     )
   }
 
