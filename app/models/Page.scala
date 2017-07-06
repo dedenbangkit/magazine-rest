@@ -42,6 +42,8 @@ object Page {
   val carouselIn = """<div class="carousel-inner"><ion-slides slider="data.slider" class="do_not_swipe">"""
   val carouselOut = """</ion-slides></div>"""
   val carouselCss = """class="carousels""""
+  val dashedCss = """outline: red dashed 3px;"""
+  val cursorCss = """cursor: pointer;"""
 
   val replaceHTML: Writes[String] = new Writes[String] {
     def writes(d: String): JsValue = JsString(
@@ -72,6 +74,8 @@ object Page {
        .replaceAll(carouselIn, """<ion-slides slider="data.slider" class="do_not_swipe">""")
        .replaceAll(carouselOut, """</ion-slides>""")
        .replaceAll(carouselCss, """width="100%"""")
+       .replaceAll(dashedCss, "")
+       .replaceAll(cursorCss, "")
     )
   }
 
