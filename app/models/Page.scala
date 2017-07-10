@@ -19,7 +19,6 @@ object Page {
   val oValueB = """<o class=\"btn btn-inverse btn-embossed sortable-function\" onclick=\"sortableMode\(\)" style=\"display: inline-block;\"></o>"""
   val pageUi = """<div class=\"item content\" id=\"content_section1\""""
   val divPage = """<div id=\"page\" class=\"page\">"""
-  val divRow = """<div class=\"row"""
   val article = """<article></article>"""
   val articleO = """<article class=\"article\">"""
   val articleC = """</article>"""
@@ -54,7 +53,6 @@ object Page {
        .replaceAll(articleO, "")
        .replaceAll(articleC, "")
        .replaceAll(rowValue,"")
-       .replaceAll(divRow,"""<div class=\"padding""")
        .replaceAll(divPage,"""<div class=\"padding\">""")
        .replaceAll(editAble,"")
        .replaceAll(mceRem,"")
