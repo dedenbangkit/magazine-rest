@@ -43,6 +43,8 @@ object Page {
   val carouselCss = """class="carousels""""
   val dashedCss = """outline: red dashed 3px;"""
   val cursorCss = """cursor: pointer;"""
+  val carouselBtn1 = """<o class="carousel-control new-image" id="add-img"><span class="fui-plus"></span></o>"""
+  val carouselBtn2 = """<o class="carousel-control remove-image" id="remove-img"><span class="fui-trash"></span></o>"""
 
   val replaceHTML: Writes[String] = new Writes[String] {
     def writes(d: String): JsValue = JsString(
@@ -74,6 +76,8 @@ object Page {
        .replaceAll(carouselCss, """width="100%"""")
        .replaceAll(dashedCss, "")
        .replaceAll(cursorCss, "")
+       .replaceAll(carouselBtn1, "")
+       .replaceAll(carouselBtn2, "")
     )
   }
 
