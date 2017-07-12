@@ -11,25 +11,25 @@ case class Page(issueId: Int, pageNum: Int, pageName: String, pageContent: Optio
 
 object Page {
 
-  val oValue1 = """<o class=\"btn btn-embossed sortable-function check-columns btn-success\" id=\"one-col\">1 <i class=\"fa fa-navicon\"></i></o>"""
-  val oValue2 = """<o class=\"btn btn-inverse btn-embossed sortable-function check-columns\" id=\"two-col\">2 <i class=\"fa fa-navicon\"></i></o>"""
-  val oValue3 = """<o class=\"btn btn-inverse btn-embossed sortable-function check-columns\" id=\"three-col\">3 <i class=\"fa fa-navicon\"></i></o>"""
-  val oValue4 = """<o class=\"btn btn-inverse btn-embossed sortable-function check-columns\" id=\"four-col\">4 <i class=\"fa fa-navicon\"></i></o>"""
-  val oValueA = """<o class=\"btn btn-inverse btn-embossed sortable-function\" onclick=\"sortableMode\(\)" style=\"display: inline-block;\"><i class=\"glyphicon glyphicon-move\"></i></o>"""
-  val oValueB = """<o class=\"btn btn-inverse btn-embossed sortable-function\" onclick=\"sortableMode\(\)" style=\"display: inline-block;\"></o>"""
-  val pageUi = """<div class=\"item content\" id=\"content_section1\""""
-  val divPage = """<div id=\"page\" class=\"page\">"""
+  val oValue1 = """<o class="btn btn-embossed sortable-function check-columns btn-success" id="one-col">1 <i class="fa fa-navicon"></i></o>"""
+  val oValue2 = """<o class="btn btn-inverse btn-embossed sortable-function check-columns" id="two-col">2 <i class="fa fa-navicon"></i></o>"""
+  val oValue3 = """<o class="btn btn-inverse btn-embossed sortable-function check-columns" id="three-col">3 <i class="fa fa-navicon"></i></o>"""
+  val oValue4 = """<o class="btn btn-inverse btn-embossed sortable-function check-columns" id="four-col">4 <i class="fa fa-navicon"></i></o>"""
+  val oValueA = """<o class="btn btn-inverse btn-embossed sortable-function" onclick="sortableMode()" style="display: inline-block;"><i class="glyphicon glyphicon-move"></i></o>"""
+  val oValueB = """<o class="btn btn-inverse btn-embossed sortable-function" onclick="sortableMode()" style="display: inline-block;"></o>"""
+  val pageUi = """<div class="item content" id="content_section1""""
+  val divPage = """<div id="page" class="page">"""
   val article = """<article></article>"""
-  val articleO = """<article class=\"article\">"""
+  val articleO = """<article class="article">"""
   val articleC = """</article>"""
-  val rowValue = """class=\"row article__content\" id=\"demos\""""
-  val pMce = """class=\"article__by-line\" data-selector=\"p\" """
-  val editAble = """data-editable=\"\" """
-  val divMce = """class=\"container mce-content-body\" data-selector=\".container\""""
-  val mceRem = """id=\"mce_0\" contenteditable=\"true\" style=\"position: relative;\" spellcheck=\"false\""""
-  val dataCol = """data-selector=\".column\""""
-  val dataCon = """data-selector=\".container\""""
-  val dataP = """data-selector=\"p\" """
+  val rowValue = """class="row article__content" id="demos""""
+  val pMce = """class="article__by-line" data-selector="p" """
+  val editAble = """data-editable="" """
+  val divMce = """class="container mce-content-body" data-selector=".container""""
+  val mceRem = """id="mce_0" contenteditable="true" style="position: relative;" spellcheck="false""""
+  val dataCol = """data-selector=".column""""
+  val dataCon = """data-selector=".container""""
+  val dataP = """data-selector="p" """
   val imgSrc = "img img-responsive"
   val divColumn12 = "column col-xs-12"
   val divColumn10 = "column col-xs-10"
@@ -50,12 +50,12 @@ object Page {
     def writes(d: String): JsValue = JsString(
      d.replaceAll(oValue1, "").replaceAll(oValue2,"").replaceAll(oValue3, "").replaceAll(oValue4,"")
        .replaceAll(oValueA,"").replaceAll(oValueB,"")
-       .replaceAll(pageUi,"""<div class=\"padding\"""")
+       .replaceAll(pageUi,"""<div class="padding"""")
        .replaceAll(article, "")
        .replaceAll(articleO, "")
        .replaceAll(articleC, "")
        .replaceAll(rowValue,"")
-       .replaceAll(divPage,"""<div class=\"padding\">""")
+       .replaceAll(divPage,"""<div class="padding">""")
        .replaceAll(editAble,"")
        .replaceAll(mceRem,"")
        .replaceAll(pMce, "")
