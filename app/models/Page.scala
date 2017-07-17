@@ -51,8 +51,12 @@ object Page {
   val dashedCss = """outline: red dashed 3px;"""
   val dashedCss2 = """outline: 3px dashed red;"""
   val cursorCss = """cursor: pointer;"""
-  val carouselBtn1 = """<o class="carousel-control new-image" id="add-img"><span class="fui-plus"></span></o>"""
-  val carouselBtn2 = """<o class="carousel-control remove-image" id="remove-img"><span class="fui-trash"></span></o>"""
+  val carouselBtn1 = """<o class=\"carousel-control new-image\" id=\"add-img\"><span class=\"fui-plus\"></span></o>"""
+  val carouselBtn2 = """<o class=\"carousel-control remove-image\" id=\"remove-img\"><span class=\"fui-trash\"></span></o>"""
+  var ionSlides= """ion-slide-page class=\"item\""""
+  var ionSlidesAct= """ion-slide-page class=\"item active\""""
+  var ionStyle="""alt=\"\" data-selector=\".carousels\""""
+  var ionData="""<a class=\"left carousel-control fui-arrow-left\" href=\"#myCarousel\" data-slide=\"prev\"></a> <a class=\"right carousel-control fui-arrow-right\" href=\"#myCarousel\" data-slide=\"next\"></a> </div>"""
 
   val replaceHTML: Writes[String] = new Writes[String] {
     def writes(d: String): JsValue = JsString(
@@ -89,6 +93,9 @@ object Page {
        .replaceAll(cursorCss, "")
        .replaceAll(carouselBtn1, "")
        .replaceAll(carouselBtn2, "")
+       .replaceAll(ionSlides, "ion-slide-page")
+       .replaceAll(ionSlidesAct, "ion-slide-page")
+       .replaceAll(ionData, "")
     )
   }
 
