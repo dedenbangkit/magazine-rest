@@ -29,7 +29,7 @@ object Page {
   val articleO = """<article class=\"article\">"""
   val articleC = """</article>"""
   val rowValue = """class=\"row article__content\""""
-  val rowGlobal = """class=\"row\""""
+  val rowGlobal = """class=\"row banner\""""
   val demosValue = """ id=\"demos\""""
   val pMce = """class=\"article__by-line\" data-selector=\"p\" """
   val editAble = """data-editable=\"\" """
