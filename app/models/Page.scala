@@ -67,7 +67,7 @@ object Page {
        .replaceAll(article, "")
        .replaceAll(articleO, "")
        .replaceAll(articleC, "")
-       .replaceAll(rowValue,"""class=\"row\"""")
+       .replaceAll(rowValue,"""class=\"no-padding\"""")
        .replaceAll(demosValue,"")
        .replaceAll(divPage,"""<div class=\"issue-page\">""")
        .replaceAll(editAble,"")
