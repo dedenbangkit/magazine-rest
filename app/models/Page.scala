@@ -29,6 +29,7 @@ object Page {
   val articleO = """<article class=\"article\">"""
   val articleC = """</article>"""
   val rowValue = """class=\"row article__content\""""
+  val rowGlobal = """class=\"row\""""
   val demosValue = """ id=\"demos\""""
   val pMce = """class=\"article__by-line\" data-selector=\"p\" """
   val editAble = """data-editable=\"\" """
@@ -68,6 +69,7 @@ object Page {
        .replaceAll(articleO, "")
        .replaceAll(articleC, "")
        .replaceAll(rowValue,"""class=\"no-padding\"""")
+       .replaceAll(rowGlobal,"""class=\"no-padding\"""")
        .replaceAll(demosValue,"")
        .replaceAll(divPage,"""<div class=\"issue-page\">""")
        .replaceAll(editAble,"")
