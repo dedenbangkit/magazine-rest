@@ -2,7 +2,7 @@ package controllers
 
 
 import authentikat.jwt._
-import models.{MagzApi, Page, Validate}
+import models.{MagzApi, Page, Validate, User}
 import models.MagzApi._
 import models.Page._
 import play.api.cache.{Cache, Cached}
@@ -103,5 +103,30 @@ object MagzApis extends Controller {
             ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
     }
   }
+
+  def findDraft(codeId:String, projectId:Int, position:String) = Action {
+    request => request.body.asJson map { key =>
+      (key \ "key").as[String]
+    } match {
+      case Some(key) =>
+        User.check(key, projectId, position)
+        match {
+            case None => NotFound(Json.obj("status" -> "Not Found", "result" -> "404"))
+            case Some(user) =>
+              val claimsSet = JwtClaimsSet(Map(codeId -> codeId))
+              val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, codeId).mkString).drop(30)
+              val allMagzs = MagzApi.findDraft(codeId, projectId)
+              val theUser = User.find(key, position)
+              val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
+              Ok(Json.obj("results" -> allMagzs, "viewer" -> theUser)).withHeaders(AUTHORIZATION -> endtoken,
+                ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
+                ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, OPTIONS",
+                ACCESS_CONTROL_ALLOW_HEADERS -> "Origin, Accept, Authorization, X-Auth-Token",
+                ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
+        }
+      case _ => BadRequest(Json.obj("status" -> "Bad Request", "result" -> "400"))
+    }
+  }
+
 
 }
