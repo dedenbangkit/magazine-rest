@@ -15,7 +15,7 @@ object UserDAO {
           | FROM `users`
           | WHERE `project_id`={projectId}
           | AND `position`={position}
-          | AND `remember_token`={key};
+          | AND `mobile_token`={key};
         """.stripMargin).on(
         "projectId" -> user.projectId,
         "key" -> user.key,
@@ -29,16 +29,16 @@ object UserDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `remember_token`, `position`, `project_id`
+          | SELECT `mobile_token`, `position`, `project_id`
           | FROM `users`
-          | WHERE `remember_token`={key}
+          | WHERE `mobile_token`={key}
           | AND `position`={position};
         """.stripMargin).on(
         "key" -> key,
         "position" -> position
       ).apply()
       results.map { row =>
-        User(row[Int]("project_id"), row[String]("remember_token"), row[String]("position"))
+        User(row[Int]("project_id"), row[String]("mobile_token"), row[String]("position"))
       }.force.toList
     }
   }
