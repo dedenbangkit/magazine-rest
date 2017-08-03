@@ -2,7 +2,8 @@ package controllers
 
 
 import authentikat.jwt._
-import models.{MagzApi, Page, Validate, User}
+import models.{MagzApi, Page, User, Validate}
+import models.dao.UserDAO._
 import models.MagzApi._
 import models.Page._
 import play.api.cache.{Cache, Cached}
@@ -11,6 +12,8 @@ import play.api.mvc._
 import play.api.Play.current
 import play.api.mvc.Action
 import java.net._
+
+import models.dao.UserDAO
 
 import scala.concurrent.Future
 import scala.util.Random
@@ -125,6 +128,14 @@ object MagzApis extends Controller {
                 ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
         }
       case _ => BadRequest(Json.obj("status" -> "Bad Request", "result" -> "400"))
+    }
+  }
+
+  def tokenChecker(key:String) = Action {
+    UserDAO.token(key)
+    match {
+      case true => Ok(Json.obj("results" -> "200"))
+      case false => NotFound(Json.obj("results" -> "404"))
     }
   }
 

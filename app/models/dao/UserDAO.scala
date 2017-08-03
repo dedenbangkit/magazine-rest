@@ -43,4 +43,18 @@ object UserDAO {
     }
   }
 
+  def token(key: String): Boolean = {
+    DB.withConnection { implicit c =>
+      val result = SQL(
+        """
+          | SELECT COUNT(*) as numMatches
+          | FROM `users`
+          | WHERE `mobile_token`={key};
+        """.stripMargin).on(
+        "key" -> key
+      ).apply().head
+      result[Int]("numMatches") != 0
+    }
+  }
+
 }

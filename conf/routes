@@ -9,6 +9,7 @@ GET     /findstrict/MagzApis/:magazineId/:key/:userId                 controller
 GET     /findstrictAll/MagzApis/:magazineId/:key/:userId              controllers.MagzApis.findstrictAll(magazineId: Int, key:String, userId:Int)
 GET     /issue/:issueId/MagzApis/                                     controllers.MagzApis.findPages(issueId: Int)
 POST    /findDraft/:position/:codeId/:projectId                       controllers.MagzApis.findDraft(codeId:String, projectId:Int, position:String)
+GET     /checkToken/:key                                              controllers.MagzApis.tokenChecker(key:String)
 
 
 # Home page
