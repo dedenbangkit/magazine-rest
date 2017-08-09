@@ -5,11 +5,12 @@
 # API Endpoints
 GET     /find/MagzApis/:magazineId/:key                               controllers.MagzApis.find(magazineId: Int, key:String)
 GET     /findAll/MagzApis/:magazineId/:key                            controllers.MagzApis.findAll(magazineId: Int, key:String)
-GET     /findstrict/MagzApis/:magazineId/:key/:userId                 controllers.MagzApis.findstrict(magazineId: Int, key:String, userId:Int )
-GET     /findstrictAll/MagzApis/:magazineId/:key/:userId              controllers.MagzApis.findstrictAll(magazineId: Int, key:String, userId:Int)
+GET     /findstrict/MagzApis/:magazineId/:key/:userId                 controllers.MagzApis.findStrict(magazineId: Int, key:String, userId:Int )
+GET     /findstrictAll/MagzApis/:magazineId/:key/:userId              controllers.MagzApis.findStrictAll(magazineId: Int, key:String, userId:Int)
 GET     /issue/:issueId/MagzApis/                                     controllers.MagzApis.findPages(issueId: Int)
 POST    /findDraft/:position/:codeId/:projectId                       controllers.MagzApis.findDraft(codeId:String, projectId:Int, position:String)
 GET     /checkToken/:key                                              controllers.MagzApis.tokenChecker(key:String)
+POST    /addComment/:pageId/:issueId/:key                             controllers.CommentApis.addComment(pageId: Int,issueId:Int, key:String)
 
 
 # Home page

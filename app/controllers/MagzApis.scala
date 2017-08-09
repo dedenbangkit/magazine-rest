@@ -34,7 +34,7 @@ object MagzApis extends Controller {
   val header = JwtHeader("HS256")
   val cky = Random.alphanumeric.filter(_.isLetter).head
 
-  def findstrict(magazineId: Int, key:String, userId:Int) = Action {
+  def findStrict(magazineId: Int, key:String, userId:Int) = Action {
 
         Validate.find(userId, key)
         match {
@@ -51,7 +51,7 @@ object MagzApis extends Controller {
               ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
     }
   }
-  def findstrictAll(magazineId: Int, key: String, userId:Int) = Cached("findAll_"+magazineId) {
+  def findStrictAll(magazineId: Int, key: String, userId:Int) = Cached("findAll_"+magazineId) {
     Action {
       Validate.find(userId, key)
       match {
