@@ -2,7 +2,6 @@ package models.dao
 
 import org.joda.time.DateTime
 import anorm._
-import models.Page
 import play.api.db.DB
 import play.api.Play.current
 
