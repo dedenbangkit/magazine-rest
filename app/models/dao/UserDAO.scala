@@ -57,19 +57,18 @@ object UserDAO {
     }
   }
 
-  def link(key: String): Stream[Int] = {
+  def link(key: String): Int =
     DB.withConnection { implicit c =>
-      val userId = SQL(
+      var userId = SQL(
         """
           | SELECT * FROM `users`
           | WHERE `mobile_token`={key};
         """.stripMargin).on(
         "key" -> key
-      ).apply()
-      userId.map { row =>
-        row[Int]("id")
+      ).apply().head
+      userId[Int] {
+        "id"
       }
     }
-  }
 
 }

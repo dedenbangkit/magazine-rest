@@ -7,33 +7,28 @@ import play.api.Play.current
 
 object CommentDAO {
 
-  def create(pageId: Int, issueId: Int): Stream[(Int, Int, String)] =
-    DB.withConnection { implicit c =>
-      val comment = SQL(
+  def create(pageId: Int, issueId: Int): Option[Long] =
+    DB.withConnection (implicit c => SQL(
         """
           | INSERT IGNORE INTO `master_comment` (`issue_id`, `page_id`)
-          | VALUES ({issueId},{pageId}, {userId);
+          | VALUES ({issueId},{pageId})
         """.stripMargin).on(
         "pageId" -> pageId,
         "issueId" -> issueId
-      ).apply()
-      comment.map { row => (row[Int]("issue_id"), row[Int]("page_id"), row[String]("status"))
-      }
-    }
+        ).executeInsert()
+    )
 
-  def write(messages:String, userId:Int): Stream[(String, Int)] =
-    DB.withConnection { implicit c =>
-      val comment = SQL (
+  def write(masterId:Int, messages:String, userId:Int) =
+    DB.withConnection(implicit c => SQL (
         """
-          | INSERT IGNORE INTO `comment` (`content`, `user_id`)
-          | VALUES ({messages},{userId})
+          | INSERT IGNORE INTO `comment` (`master_comment_id`,`content`, `user_id`)
+          | VALUES ({master_id}, {messages},{user_id})
         """.stripMargin).on(
+        "master_id" -> masterId,
         "messages" -> messages,
         "user_id" -> userId
-      ).apply()
-      comment.map{row => (row[String]("content"), row[Int]("user_id"))
-      }
-    }
+      ).executeInsert()
+    )
 
   def check(issueId: Int): Stream[(Int, Int, String, Int)] =
     DB.withConnection { implicit c =>
