@@ -107,7 +107,7 @@ object MagzApis extends Controller {
     }
   }
 
-  def findDraft(codeId:String, projectId:Int, position:String) = Action {
+  def findDraft(projectId:Int, position:String) = Action {
     request => request.body.asJson map { key =>
       (key \ "key").as[String]
     } match {
@@ -116,9 +116,9 @@ object MagzApis extends Controller {
         match {
             case None => NotFound(Json.obj("status" -> "Not Found", "result" -> "404"))
             case Some(user) =>
-              val claimsSet = JwtClaimsSet(Map(codeId -> codeId))
-              val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, codeId).mkString).drop(30)
-              val allMagzs = MagzApi.findDraft(codeId, projectId)
+              val claimsSet = JwtClaimsSet(Map(position -> position))
+              val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, projectId).mkString).drop(30)
+              val allMagzs = MagzApi.findDraft(projectId)
               val theUser = User.find(key, position)
               val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
               Ok(Json.obj("results" -> allMagzs, "viewer" -> theUser)).withHeaders(AUTHORIZATION -> endtoken,
@@ -129,6 +129,19 @@ object MagzApis extends Controller {
         }
       case _ => BadRequest(Json.obj("status" -> "Bad Request", "result" -> "400"))
     }
+  }
+
+  def checkDraft(codeId:String) = Action {
+
+            val claimsSet = JwtClaimsSet(Map(codeId -> codeId))
+            val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, codeId).mkString).drop(30)
+            val allMagzs = MagzApi.checkDraft(codeId)
+            val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
+            Ok(Json.obj("results" -> allMagzs, "viewer" -> "client")).withHeaders(AUTHORIZATION -> endtoken,
+              ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
+              ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, OPTIONS",
+              ACCESS_CONTROL_ALLOW_HEADERS -> "Origin, Accept, Authorization, X-Auth-Token",
+              ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
   }
 
   def tokenChecker(key:String) = Action {

@@ -48,7 +48,7 @@ object MagzApiDAO {
     }
   }
 
-  def check(codeId: String, projectId:Int): List[MagzApi] = {
+  def check(projectId:Int): List[MagzApi] = {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
@@ -57,10 +57,27 @@ object MagzApiDAO {
           | WHERE `deleted_at` IS NULL
           | AND `status`="unpublished"
           | AND `project_id`={project_id}
+          | ORDER BY `updated_at` DESC;
+        """.stripMargin).on(
+        "project_id" -> projectId
+      ).apply()
+      results.map { row =>
+        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[Int]("page_counter"))
+      }.force.toList
+    }
+  }
+
+  def client(codeId: String): List[MagzApi] = {
+    DB.withConnection { implicit c =>
+      val results = SQL(
+        """
+          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`page_counter`
+          | FROM `issue`
+          | WHERE `deleted_at` IS NULL
+          | AND `status`="unpublished"
           | AND `token`={code_id}
           | ORDER BY `updated_at` DESC;
         """.stripMargin).on(
-        "project_id" -> projectId,
         "code_id" -> codeId
       ).apply()
       results.map { row =>
