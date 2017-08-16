@@ -5,6 +5,7 @@ import authentikat.jwt._
 import models.{MagzApi, Page, User, Validate}
 import models.dao.UserDAO._
 import models.MagzApi._
+import models.EditorApi._
 import models.Page._
 import play.api.cache.{Cache, Cached}
 import play.api.libs.json._
@@ -82,6 +83,7 @@ object MagzApis extends Controller {
               ACCESS_CONTROL_ALLOW_HEADERS ->  "Origin, Accept, Authorization, X-Auth-Token",
               ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
   }
+
   def findAll(magazineId: Int, key: String) = Cached("findAll_"+magazineId) {
     Action {
           val claimsSet = JwtClaimsSet(Map(key -> magazineId))
@@ -107,18 +109,18 @@ object MagzApis extends Controller {
     }
   }
 
-  def findDraft(projectId:Int, position:String) = Action {
+  def findDraft(magazineId:Int, position:String) = Action {
     request => request.body.asJson map { key =>
       (key \ "key").as[String]
     } match {
       case Some(key) =>
-        User.check(key, projectId, position)
+        User.check(key, magazineId, position)
         match {
             case None => NotFound(Json.obj("status" -> "Not Found", "result" -> "404"))
             case Some(user) =>
               val claimsSet = JwtClaimsSet(Map(position -> position))
-              val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, projectId).mkString).drop(30)
-              val allMagzs = MagzApi.findDraft(projectId)
+              val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, magazineId).mkString).drop(30)
+              val allMagzs =  MagzApi.findDraft(magazineId)
               val theUser = User.find(key, position)
               val endtoken: String = JsonWebToken(header, claimsSet, List(localIpAddress).mkString).drop(30)
               Ok(Json.obj("results" -> allMagzs, "viewer" -> theUser)).withHeaders(AUTHORIZATION -> endtoken,
@@ -132,7 +134,6 @@ object MagzApis extends Controller {
   }
 
   def checkDraft(codeId:String) = Action {
-
             val claimsSet = JwtClaimsSet(Map(codeId -> codeId))
             val token: String = JsonWebToken(header, claimsSet, List(localIpAddress, codeId).mkString).drop(30)
             val allMagzs = MagzApi.checkDraft(codeId)

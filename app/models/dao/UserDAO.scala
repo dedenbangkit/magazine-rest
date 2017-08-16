@@ -13,11 +13,11 @@ object UserDAO {
         """
           | SELECT COUNT(*) as numMatches
           | FROM `users`
-          | WHERE `project_id`={projectId}
+          | WHERE `project_id`={project_id}
           | AND `position`={position}
           | AND `mobile_token`={key};
         """.stripMargin).on(
-        "projectId" -> user.projectId,
+        "project_id" -> user.magazineId,
         "key" -> user.key,
         "position" -> user.position
       ).apply().head

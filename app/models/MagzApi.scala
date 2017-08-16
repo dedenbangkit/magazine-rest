@@ -57,8 +57,9 @@ object MagzApi {
   def findIssue(magazineId: Int): List[MagzApi] =
     MagzApiDAO.show(magazineId)
 
-  def findDraft(projectId: Int): List[MagzApi] =
-    MagzApiDAO.check(projectId)
+  def findDraft(magazineId: Int): List[MagzApi] =
+    MagzApiDAO.check(magazineId)
+
   def checkDraft(codeId: String): List[MagzApi] =
     MagzApiDAO.client(codeId)
 }

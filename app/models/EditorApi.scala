@@ -47,6 +47,6 @@ object EditorApi {
     )(unlift(EditorApi.unapply))
 
   def checkDraft(projectId: Int): List[EditorApi] =
-    MagzApiDAO.check(projectId)
+    MagzApiDAO.recheck(projectId)
 
 }
