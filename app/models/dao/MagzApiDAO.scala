@@ -14,7 +14,7 @@ object MagzApiDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`page_counter`
+          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`approval`,`page_counter`
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="published"
@@ -24,7 +24,7 @@ object MagzApiDAO {
         "project_id" -> magazineId
       ).apply()
       results.map { row =>
-        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[Int]("page_counter"))
+        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[String]("approval"), row[Int]("page_counter"))
       }.force.toList
     }
   }
@@ -33,7 +33,7 @@ object MagzApiDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`page_counter`
+          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`approval`,`page_counter`
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="published"
@@ -43,7 +43,7 @@ object MagzApiDAO {
           "project_id" -> magazineId
         ).apply()
       results.map { row =>
-        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[Int]("page_counter"))
+        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[String]("approval"), row[Int]("page_counter"))
       }.force.toList
     }
   }
@@ -52,7 +52,7 @@ object MagzApiDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`page_counter`
+          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`approval`,`page_counter`
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="unpublished"
@@ -63,7 +63,7 @@ object MagzApiDAO {
         "project_id" -> magazineId
       ).apply()
       results.map { row =>
-        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[Int]("page_counter"))
+        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[String]("approval"), row[Int]("page_counter"))
       }.force.toList
     }
   }
@@ -72,7 +72,7 @@ object MagzApiDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`page_counter`
+          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`approval`,`page_counter`
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="unpublished"
@@ -83,7 +83,7 @@ object MagzApiDAO {
         "code_id" -> codeId
       ).apply()
       results.map { row =>
-        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[Int]("page_counter"))
+        MagzApi(row[Int]("id"),row[String]("issue_name"),row[Int]("issue_master"),row[String]("issue_cover"),row[String]("compiled"),row[DateTime]("updated_at"), row[String]("approval"), row[Int]("page_counter"))
       }.force.toList
     }
   }
@@ -92,7 +92,7 @@ object MagzApiDAO {
     DB.withConnection { implicit c =>
       val results = SQL(
         """
-          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`page_counter`
+          | SELECT `id`,`issue_name`,`issue_master`,`project_id`,`issue_cover`,`status`,`compiled`,`created_at`,`updated_at`,`deleted_at`,`approval`,`page_counter`
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="unpublished"
