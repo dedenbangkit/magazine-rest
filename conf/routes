@@ -12,7 +12,7 @@ POST    /checkDraft/:codeId                                           controller
 POST    /findDraft/:position/:magazineId                              controllers.MagzApis.findDraft(magazineId:Int, position:String)
 GET     /checkToken/:key                                              controllers.MagzApis.tokenChecker(key:String)
 POST    /addComment/:pageId/:issueId/:key                             controllers.CommentApis.addComment(pageId: Int,issueId:Int, key:String)
-POST    /confirmIssue/:issueId/:approval                              controllers.CommentApis.changeStatus(issueId:Int, approval:String)
+GET    /confirmIssue/:issueId/:approval                              controllers.CommentApis.changeStatus(issueId:Int, approval:String)
 
 
 # Home page
