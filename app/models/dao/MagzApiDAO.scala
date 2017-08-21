@@ -76,6 +76,7 @@ object MagzApiDAO {
           | FROM `issue`
           | WHERE `deleted_at` IS NULL
           | AND `status`="unpublished"
+          | AND `approval`="pending"
           | AND `updated_at` IS NOT NULL
           | AND `token`={code_id}
           | ORDER BY `updated_at` DESC;
@@ -107,4 +108,16 @@ object MagzApiDAO {
       }.force.toList
     }
   }
+
+  def confirm(issueId:Int, approval:String) =
+    DB.withConnection(implicit c => SQL (
+      """
+        | UPDATE `issue`
+        | SET `approval`={approval}
+        | WHERE `id`={issueId}
+      """.stripMargin).on(
+      "issueId" -> issueId,
+      "approval" -> approval
+    ).executeUpdate()
+  )
 }

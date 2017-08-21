@@ -8,8 +8,7 @@ import play.api.mvc.Action
 import java.net._
 
 import play.api.libs.json._
-import models.dao.UserDAO
-import models.dao.CommentDAO
+import models.dao.{CommentDAO, MagzApiDAO, UserDAO}
 import org.joda.time.DateTime
 
 import scala.concurrent.Future
@@ -44,5 +43,18 @@ object CommentApis extends Controller{
         }
       case _ => BadRequest(Json.obj("status" -> "Bad Request", "result" -> "400"))
     }
+  }
+
+  def changeStatus(issueId:Int, approval:String) = Action {
+    var corfirmation = MagzApiDAO.confirm(issueId, approval)
+    Ok(Json.obj(
+      "results" -> "success",
+      "issue" -> issueId,
+      "confirmation" -> approval
+    )).withHeaders(
+      ACCESS_CONTROL_ALLOW_ORIGIN -> "*",
+      ACCESS_CONTROL_ALLOW_METHODS -> "GET, POST, OPTIONS",
+      ACCESS_CONTROL_ALLOW_HEADERS -> "Origin, Accept, Authorization, X-Auth-Token",
+      ACCESS_CONTROL_ALLOW_CREDENTIALS -> "true")
   }
 }
